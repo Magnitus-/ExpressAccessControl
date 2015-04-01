@@ -13,6 +13,16 @@ function Setup(Routes, Callback)
     Routes.forEach(function(Item, Index, List) {
         App[Item['Method']](Item['Path'], Item['Call']);
     });
+    App.use('/', function(Err, Req, Res, Next) {
+        if(Err.Source && Err.Source === 'ExpressAccessControl')
+        {
+            Res.status(401).end();
+        }
+        else
+        {
+            Next(Err);
+        }
+    });
     Context['Server'] = Http.createServer(Context['App']);
     Context['Server'].listen(8080, function() {
         Callback();

@@ -66,7 +66,7 @@ AuthenticateRoute(Options)
 
 This call is a shortcut to generate a route that authentifies the user (like in the above example).
 
-If the user doesn't pass authentication, the 401 code is returned as a response, else Next() is called to go to the next route handler.
+If the user doesn't pass authentication, then Next(Err) is called, where Err is an error with Err.Source set to "ExpressAccessControl" and Err.Type set to "NoAccess". If the user passes authentication, then Next() is called to go to the next route handler.
 
 &lt;Options&gt; can take 2 formats:
 
@@ -156,7 +156,10 @@ Versions History
 
 Initial release.
 
+2.0.0
+-----
 
+The library's 'AuthenticateRoute' method will now deleguate the response to an error handler if the user doesn't pass authentication.
 
 
 
